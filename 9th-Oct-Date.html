@@ -904,5 +904,481 @@
       updateControls();
     })();
   </script>
+  <!-- Cute capybara + crocodile love delivery -->
+<style>
+  .love-delivery-stage {
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .love-delivery-team {
+    position: absolute;
+    left: 0;
+    bottom: 215px;
+    width: clamp(260px, 36vw, 390px);
+    opacity: 0;
+    will-change: transform;
+    filter: drop-shadow(0 10px 12px rgba(133, 58, 85, .15));
+  }
+
+  .love-delivery-team svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .love-delivery-stage.is-delivering .love-delivery-team {
+    animation: love-delivery-cross 8s linear both;
+  }
+
+  @keyframes love-delivery-cross {
+    0% {
+      transform: translateX(-110%);
+      opacity: 0;
+    }
+
+    6% {
+      opacity: 1;
+    }
+
+    92% {
+      opacity: 1;
+    }
+
+    100% {
+      transform: translateX(calc(100vw + 20px));
+      opacity: 0;
+    }
+  }
+
+  .love-delivery-stage.is-delivering .delivery-capy {
+    animation: delivery-bounce .65s ease-in-out infinite;
+  }
+
+  .love-delivery-stage.is-delivering .delivery-croc {
+    animation: delivery-bounce .65s ease-in-out .15s infinite;
+  }
+
+  .love-delivery-stage.is-delivering .delivery-letter {
+    animation: delivery-letter-sway 1.3s ease-in-out infinite;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .love-delivery-stage.is-delivering .delivery-foot {
+    animation: delivery-step .65s ease-in-out infinite;
+    transform-box: fill-box;
+    transform-origin: center top;
+  }
+
+  .love-delivery-stage.is-delivering .delivery-foot.alternate {
+    animation-delay: -.325s;
+  }
+
+  .love-delivery-stage.is-delivering .delivery-heart {
+    animation: delivery-heart-rise 2s ease-out infinite;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .love-delivery-stage.is-delivering .delivery-heart.second {
+    animation-delay: -.7s;
+  }
+
+  .love-delivery-stage.is-delivering .delivery-heart.third {
+    animation-delay: -1.4s;
+  }
+
+  .love-delivery-stage.is-delivering .delivery-caption {
+    animation: delivery-caption-glow 1.8s ease-in-out infinite;
+  }
+
+  @keyframes delivery-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  @keyframes delivery-step {
+    0%, 100% { transform: rotate(-9deg); }
+    50% { transform: rotate(9deg) translateY(-2px); }
+  }
+
+  @keyframes delivery-letter-sway {
+    0%, 100% { transform: rotate(-4deg) translateY(0); }
+    50% { transform: rotate(4deg) translateY(-4px); }
+  }
+
+  @keyframes delivery-heart-rise {
+    0% {
+      opacity: 0;
+      transform: translateY(8px) scale(.7);
+    }
+
+    25% {
+      opacity: 1;
+    }
+
+    100% {
+      opacity: 0;
+      transform: translateY(-28px) scale(1.15);
+    }
+  }
+
+  @keyframes delivery-caption-glow {
+    0%, 100% { opacity: .75; }
+    50% { opacity: 1; }
+  }
+
+  @media (max-width: 650px) {
+    .love-delivery-team {
+      bottom: 200px;
+      width: 270px;
+    }
+  }
+
+  @media (max-height: 500px) {
+    .love-delivery-team {
+      bottom: auto;
+      top: 35px;
+      width: 250px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .love-delivery-stage {
+      display: none !important;
+    }
+  }
+</style>
+
+<div
+  class="love-delivery-stage"
+  id="love-delivery-stage"
+  aria-hidden="true"
+  hidden>
+
+  <div class="love-delivery-team">
+    <svg
+      viewBox="0 0 420 250"
+      xmlns="http://www.w3.org/2000/svg"
+      focusable="false">
+
+      <defs>
+        <linearGradient id="delivery-envelope-pink" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#fff0f6"/>
+          <stop offset="100%" stop-color="#f4b9cf"/>
+        </linearGradient>
+
+        <linearGradient id="delivery-seal-gold" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#efd39a"/>
+          <stop offset="100%" stop-color="#b78843"/>
+        </linearGradient>
+      </defs>
+
+      <!-- Soft ground shadows -->
+      <ellipse cx="115" cy="205" rx="67" ry="8" fill="#aa7182" opacity=".12"/>
+      <ellipse cx="312" cy="205" rx="73" ry="8" fill="#aa7182" opacity=".12"/>
+
+      <!-- Floating romantic hearts -->
+      <g fill="#e783a2">
+        <path
+          class="delivery-heart"
+          d="M164 65 C150 55 143 44 149 37
+             C155 30 163 33 166 39
+             C170 31 180 31 184 38
+             C190 49 175 60 164 65Z"/>
+
+        <path
+          class="delivery-heart second"
+          fill="#c79953"
+          d="M216 48 C206 40 201 33 205 28
+             C210 22 216 25 218 29
+             C221 23 228 23 232 28
+             C236 35 225 43 216 48Z"/>
+
+        <path
+          class="delivery-heart third"
+          fill="#f1aac4"
+          d="M262 68 C248 58 241 48 247 41
+             C253 34 261 37 264 43
+             C268 35 277 35 282 42
+             C287 52 273 63 262 68Z"/>
+      </g>
+
+      <!-- CAPYBARA -->
+      <g
+        class="delivery-capy"
+        stroke="#795444"
+        stroke-width="3"
+        stroke-linecap="round"
+        stroke-linejoin="round">
+
+        <!-- Little walking feet -->
+        <rect
+          class="delivery-foot"
+          x="75" y="174" width="23" height="29" rx="10"
+          fill="#b98a66"/>
+
+        <rect
+          class="delivery-foot alternate"
+          x="131" y="174" width="23" height="29" rx="10"
+          fill="#b98a66"/>
+
+        <!-- Round body -->
+        <ellipse cx="111" cy="152" rx="57" ry="43" fill="#cda17c"/>
+
+        <!-- Cream tummy -->
+        <ellipse
+          cx="120" cy="160" rx="32" ry="28"
+          fill="#ead0ae" stroke="none"/>
+
+        <!-- Rounded head -->
+        <rect
+          x="72" y="80" width="100" height="77" rx="32"
+          fill="#d8b18c"/>
+
+        <!-- Tiny ears -->
+        <ellipse cx="87" cy="82" rx="13" ry="15" fill="#cda17c"/>
+        <ellipse cx="143" cy="81" rx="12" ry="14" fill="#cda17c"/>
+
+        <ellipse
+          cx="87" cy="83" rx="6" ry="8"
+          fill="#edbec0" stroke="none"/>
+
+        <ellipse
+          cx="143" cy="82" rx="5" ry="7"
+          fill="#edbec0" stroke="none"/>
+
+        <!-- Soft snout -->
+        <ellipse
+          cx="155" cy="130" rx="29" ry="23"
+          fill="#e4bf99"/>
+
+        <!-- Shiny eye -->
+        <circle cx="123" cy="108" r="5" fill="#583a36" stroke="none"/>
+        <circle cx="124.5" cy="106.5" r="1.6" fill="white" stroke="none"/>
+
+        <!-- Nose and happy smile -->
+        <ellipse
+          cx="174" cy="123" rx="4" ry="3"
+          fill="#795444" stroke="none"/>
+
+        <path d="M151 136 Q159 143 167 136" fill="none"/>
+
+        <!-- Pink blush -->
+        <ellipse
+          cx="128" cy="128" rx="10" ry="6"
+          fill="#e99cad" opacity=".75" stroke="none"/>
+
+        <!-- Pink bow -->
+        <g stroke="#c46b8d" stroke-width="2">
+          <path
+            d="M99 87 Q79 69 77 86 Q79 103 99 91Z"
+            fill="#f3aac5"/>
+          <path
+            d="M101 87 Q120 70 122 87 Q119 104 101 91Z"
+            fill="#f3aac5"/>
+          <circle cx="100" cy="89" r="5" fill="#e783a2"/>
+        </g>
+      </g>
+
+      <!-- CROCODILE -->
+      <g
+        class="delivery-croc"
+        stroke="#52765a"
+        stroke-width="3"
+        stroke-linecap="round"
+        stroke-linejoin="round">
+
+        <!-- Curled tail -->
+        <path
+          d="M327 154
+             Q374 149 393 126
+             Q394 163 355 182
+             L327 183Z"
+          fill="#8fbb88"/>
+
+        <!-- Back scales -->
+        <path
+          d="M328 144 L337 132 L345 145
+             L356 132 L363 147
+             L374 139 L378 154"
+          fill="#7ba571"/>
+
+        <!-- Feet -->
+        <rect
+          class="delivery-foot alternate"
+          x="270" y="175" width="23" height="28" rx="10"
+          fill="#8bb582"/>
+
+        <rect
+          class="delivery-foot"
+          x="324" y="174" width="23" height="29" rx="10"
+          fill="#8bb582"/>
+
+        <!-- Chubby body -->
+        <ellipse cx="310" cy="155" rx="49" ry="41" fill="#9fc793"/>
+
+        <!-- Pale tummy -->
+        <ellipse
+          cx="299" cy="163" rx="28" ry="26"
+          fill="#dbe7b9" stroke="none"/>
+
+        <!-- Head -->
+        <rect
+          x="274" y="83" width="73" height="69" rx="27"
+          fill="#a8ce9b"/>
+
+        <!-- Eye bumps -->
+        <circle cx="294" cy="86" r="13" fill="#a8ce9b"/>
+        <circle cx="326" cy="85" r="12" fill="#a8ce9b"/>
+
+        <!-- Rounded friendly snout facing the capybara -->
+        <path
+          d="M294 104
+             L252 104
+             Q234 105 234 123
+             Q234 143 255 145
+             L309 145
+             Q329 140 326 123
+             Q321 105 294 104Z"
+          fill="#b4d5a4"/>
+
+        <!-- Eye -->
+        <circle cx="298" cy="91" r="5" fill="#36523d" stroke="none"/>
+        <circle cx="299.5" cy="89.5" r="1.6" fill="white" stroke="none"/>
+
+        <!-- Nose -->
+        <circle cx="246" cy="116" r="2.5" fill="#52765a" stroke="none"/>
+
+        <!-- Smile -->
+        <path d="M244 131 Q267 140 295 130" fill="none"/>
+
+        <!-- Two tiny rounded teeth -->
+        <path
+          d="M256 136 L260 142 L264 137"
+          fill="#fffaf3" stroke-width="1.5"/>
+        <path
+          d="M276 136 L280 142 L284 134"
+          fill="#fffaf3" stroke-width="1.5"/>
+
+        <!-- Blush -->
+        <ellipse
+          cx="303" cy="121" rx="10" ry="6"
+          fill="#efa8b8" opacity=".8" stroke="none"/>
+
+        <!-- Little pink neck ribbon -->
+        <path d="M283 148 Q306 158 326 148" fill="none" stroke="#df87a6" stroke-width="7"/>
+        <path d="M311 152 L318 168 L323 154" fill="#f3aac5" stroke="#df87a6" stroke-width="2"/>
+      </g>
+
+      <!-- Shared envelope -->
+      <g class="delivery-letter">
+        <rect
+          x="164" y="135" width="94" height="63" rx="9"
+          fill="url(#delivery-envelope-pink)"
+          stroke="#c8809c"
+          stroke-width="2.5"/>
+
+        <path
+          d="M166 139 L211 171 L256 139"
+          fill="#ffeaf2"
+          stroke="#d396af"
+          stroke-width="2"
+          stroke-linejoin="round"/>
+
+        <path
+          d="M167 194 L195 172 M255 194 L227 172"
+          fill="none"
+          stroke="#e4aac1"
+          stroke-width="2"/>
+
+        <circle
+          cx="211" cy="171" r="13"
+          fill="url(#delivery-seal-gold)"/>
+
+        <path
+          d="M211 178
+             C197 169 204 161 211 167
+             C218 161 225 169 211 178Z"
+          fill="#fffaf3"/>
+      </g>
+
+      <!-- Paws holding either side of the envelope -->
+      <ellipse
+        cx="165" cy="165" rx="12" ry="9"
+        fill="#d8b18c"
+        stroke="#795444"
+        stroke-width="3"/>
+
+      <ellipse
+        cx="256" cy="165" rx="12" ry="9"
+        fill="#a8ce9b"
+        stroke="#52765a"
+        stroke-width="3"/>
+
+      <!-- Little delivery caption -->
+      <g class="delivery-caption">
+        <rect
+          x="107" y="215" width="210" height="27" rx="13.5"
+          fill="#fffaf3"
+          stroke="#e8cda5"
+          stroke-width="1"/>
+
+        <text
+          x="212" y="233"
+          text-anchor="middle"
+          font-family="Georgia, serif"
+          font-size="13"
+          font-style="italic"
+          fill="#a63b62">
+          Special delivery for ButterCup ♡
+        </text>
+      </g>
+    </svg>
+  </div>
+</div>
+
+<script>
+  (() => {
+    const deliveryStage = document.getElementById("love-delivery-stage");
+    const deliveryTeam = deliveryStage.querySelector(".love-delivery-team");
+    const envelopeButton = document.getElementById("open-letter");
+
+    const prefersLessMotion =
+      window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    let cleanupTimer;
+
+    function finishDelivery() {
+      deliveryStage.hidden = true;
+      deliveryStage.classList.remove("is-delivering");
+      clearTimeout(cleanupTimer);
+    }
+
+    envelopeButton.addEventListener("click", () => {
+      if (prefersLessMotion.matches) return;
+
+      deliveryStage.hidden = false;
+      deliveryStage.classList.add("is-delivering");
+
+      cleanupTimer = setTimeout(finishDelivery, 8500);
+    }, { once: true });
+
+    deliveryTeam.addEventListener("animationend", (event) => {
+      if (event.animationName === "love-delivery-cross") {
+        finishDelivery();
+      }
+    });
+
+    prefersLessMotion.addEventListener("change", (event) => {
+      if (event.matches) finishDelivery();
+    });
+  })();
+</script>
 </body>
 </html>
