@@ -904,7 +904,7 @@
       updateControls();
     })();
   </script>
-  <!-- Cute capybara + crocodile love delivery -->
+  <!-- Improved capybara + crocodile love delivery -->
 <style>
   .love-delivery-stage {
     position: fixed;
@@ -918,10 +918,10 @@
     position: absolute;
     left: 0;
     bottom: 215px;
-    width: clamp(260px, 36vw, 390px);
+    width: clamp(310px, 40vw, 460px);
     opacity: 0;
     will-change: transform;
-    filter: drop-shadow(0 10px 12px rgba(133, 58, 85, .15));
+    filter: drop-shadow(0 8px 10px rgba(133, 58, 85, .14));
   }
 
   .love-delivery-team svg {
@@ -932,7 +932,46 @@
   }
 
   .love-delivery-stage.is-delivering .love-delivery-team {
-    animation: love-delivery-cross 8s linear both;
+    animation: love-delivery-cross 9s linear both;
+  }
+
+  /* Both characters and the letter bounce together. */
+  .love-delivery-stage.is-delivering .delivery-couple {
+    animation: delivery-couple-bounce .72s ease-in-out infinite;
+  }
+
+  .love-delivery-stage.is-delivering .delivery-foot {
+    transform-box: fill-box;
+    transform-origin: center top;
+    animation: delivery-foot-step .72s ease-in-out infinite;
+  }
+
+  .love-delivery-stage.is-delivering .delivery-foot.alternate {
+    animation-delay: -.36s;
+  }
+
+  .love-delivery-stage.is-delivering .delivery-heart {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: delivery-heart-rise 2.4s ease-out infinite;
+  }
+
+  .love-delivery-stage.is-delivering .delivery-heart.second {
+    animation-delay: -.8s;
+  }
+
+  .love-delivery-stage.is-delivering .delivery-heart.third {
+    animation-delay: -1.6s;
+  }
+
+  .love-delivery-stage.is-delivering .delivery-sparkle {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: delivery-sparkle-twinkle 1.5s ease-in-out infinite;
+  }
+
+  .love-delivery-stage.is-delivering .delivery-sparkle.second {
+    animation-delay: -.75s;
   }
 
   @keyframes love-delivery-cross {
@@ -941,7 +980,7 @@
       opacity: 0;
     }
 
-    6% {
+    7% {
       opacity: 1;
     }
 
@@ -950,101 +989,61 @@
     }
 
     100% {
-      transform: translateX(calc(100vw + 20px));
+      transform: translateX(calc(100vw + 30px));
       opacity: 0;
     }
   }
 
-  .love-delivery-stage.is-delivering .delivery-capy {
-    animation: delivery-bounce .65s ease-in-out infinite;
-  }
-
-  .love-delivery-stage.is-delivering .delivery-croc {
-    animation: delivery-bounce .65s ease-in-out .15s infinite;
-  }
-
-  .love-delivery-stage.is-delivering .delivery-letter {
-    animation: delivery-letter-sway 1.3s ease-in-out infinite;
-    transform-box: fill-box;
-    transform-origin: center;
-  }
-
-  .love-delivery-stage.is-delivering .delivery-foot {
-    animation: delivery-step .65s ease-in-out infinite;
-    transform-box: fill-box;
-    transform-origin: center top;
-  }
-
-  .love-delivery-stage.is-delivering .delivery-foot.alternate {
-    animation-delay: -.325s;
-  }
-
-  .love-delivery-stage.is-delivering .delivery-heart {
-    animation: delivery-heart-rise 2s ease-out infinite;
-    transform-box: fill-box;
-    transform-origin: center;
-  }
-
-  .love-delivery-stage.is-delivering .delivery-heart.second {
-    animation-delay: -.7s;
-  }
-
-  .love-delivery-stage.is-delivering .delivery-heart.third {
-    animation-delay: -1.4s;
-  }
-
-  .love-delivery-stage.is-delivering .delivery-caption {
-    animation: delivery-caption-glow 1.8s ease-in-out infinite;
-  }
-
-  @keyframes delivery-bounce {
+  @keyframes delivery-couple-bounce {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-6px); }
+    50% { transform: translateY(-4px); }
   }
 
-  @keyframes delivery-step {
-    0%, 100% { transform: rotate(-9deg); }
-    50% { transform: rotate(9deg) translateY(-2px); }
-  }
-
-  @keyframes delivery-letter-sway {
-    0%, 100% { transform: rotate(-4deg) translateY(0); }
-    50% { transform: rotate(4deg) translateY(-4px); }
+  @keyframes delivery-foot-step {
+    0%, 100% { transform: rotate(-7deg); }
+    50% { transform: rotate(7deg) translateY(-2px); }
   }
 
   @keyframes delivery-heart-rise {
     0% {
       opacity: 0;
-      transform: translateY(8px) scale(.7);
+      transform: translateY(6px) scale(.8);
     }
 
     25% {
-      opacity: 1;
+      opacity: .95;
     }
 
     100% {
       opacity: 0;
-      transform: translateY(-28px) scale(1.15);
+      transform: translateY(-24px) scale(1.12);
     }
   }
 
-  @keyframes delivery-caption-glow {
-    0%, 100% { opacity: .75; }
-    50% { opacity: 1; }
+  @keyframes delivery-sparkle-twinkle {
+    0%, 100% {
+      opacity: .35;
+      transform: scale(.8);
+    }
+
+    50% {
+      opacity: 1;
+      transform: scale(1.1);
+    }
   }
 
   @media (max-width: 650px) {
     .love-delivery-team {
       bottom: 200px;
-      width: 270px;
+      width: 320px;
     }
   }
 
   @media (max-height: 500px) {
     .love-delivery-team {
       bottom: auto;
-      top: 35px;
-      width: 250px;
+      top: 22px;
+      width: 290px;
     }
   }
 
@@ -1063,319 +1062,600 @@
 
   <div class="love-delivery-team">
     <svg
-      viewBox="0 0 420 250"
+      viewBox="0 0 520 330"
       xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="xMidYMid meet"
       focusable="false">
 
       <defs>
-        <linearGradient id="delivery-envelope-pink" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#fff0f6"/>
-          <stop offset="100%" stop-color="#f4b9cf"/>
+        <linearGradient
+          id="ld-capy-fur"
+          x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#dfbb94"/>
+          <stop offset="100%" stop-color="#c3956c"/>
         </linearGradient>
 
-        <linearGradient id="delivery-seal-gold" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stop-color="#efd39a"/>
-          <stop offset="100%" stop-color="#b78843"/>
+        <linearGradient
+          id="ld-capy-dress"
+          x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#ffd5e4"/>
+          <stop offset="100%" stop-color="#eda4bf"/>
         </linearGradient>
+
+        <linearGradient
+          id="ld-croc-skin"
+          x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#afd49a"/>
+          <stop offset="100%" stop-color="#80ae75"/>
+        </linearGradient>
+
+        <linearGradient
+          id="ld-envelope"
+          x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#fff4f8"/>
+          <stop offset="100%" stop-color="#f4bfd3"/>
+        </linearGradient>
+
+        <linearGradient
+          id="ld-gold"
+          x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#f4d89d"/>
+          <stop offset="100%" stop-color="#ba8b46"/>
+        </linearGradient>
+
+        <path
+          id="ld-heart-shape"
+          d="M0 8
+             C-18 -4 -13 -19 -3 -14
+             C-1 -13 0 -11 0 -9
+             C3 -18 15 -18 17 -9
+             C20 -1 8 5 0 8Z"/>
       </defs>
 
-      <!-- Soft ground shadows -->
-      <ellipse cx="115" cy="205" rx="67" ry="8" fill="#aa7182" opacity=".12"/>
-      <ellipse cx="312" cy="205" rx="73" ry="8" fill="#aa7182" opacity=".12"/>
+      <!-- Ground shadows -->
+      <ellipse
+        cx="150" cy="278" rx="59" ry="7"
+        fill="#996c79" opacity=".13"/>
 
-      <!-- Floating romantic hearts -->
-      <g fill="#e783a2">
-        <path
-          class="delivery-heart"
-          d="M164 65 C150 55 143 44 149 37
-             C155 30 163 33 166 39
-             C170 31 180 31 184 38
-             C190 49 175 60 164 65Z"/>
+      <ellipse
+        cx="364" cy="278" rx="79" ry="8"
+        fill="#996c79" opacity=".13"/>
 
-        <path
-          class="delivery-heart second"
-          fill="#c79953"
-          d="M216 48 C206 40 201 33 205 28
-             C210 22 216 25 218 29
-             C221 23 228 23 232 28
-             C236 35 225 43 216 48Z"/>
-
-        <path
-          class="delivery-heart third"
-          fill="#f1aac4"
-          d="M262 68 C248 58 241 48 247 41
-             C253 34 261 37 264 43
-             C268 35 277 35 282 42
-             C287 52 273 63 262 68Z"/>
+      <!-- Floating hearts -->
+      <g class="delivery-heart" fill="#e88eae">
+        <use href="#ld-heart-shape" x="220" y="68"/>
       </g>
 
-      <!-- CAPYBARA -->
+      <g class="delivery-heart second" fill="#c9a061">
+        <use href="#ld-heart-shape" x="272" y="49"/>
+      </g>
+
+      <g class="delivery-heart third" fill="#f0aec7">
+        <use href="#ld-heart-shape" x="320" y="72"/>
+      </g>
+
+      <!-- Golden sparkles -->
+      <path
+        class="delivery-sparkle"
+        d="M77 112 L80 103 L83 112 L92 115
+           L83 118 L80 127 L77 118 L68 115Z"
+        fill="#d5ad68"/>
+
+      <path
+        class="delivery-sparkle second"
+        d="M448 93 L451 84 L454 93 L463 96
+           L454 99 L451 108 L448 99 L439 96Z"
+        fill="#d5ad68"/>
+
+      <!-- Shared movement group keeps the paws and envelope aligned -->
       <g
-        class="delivery-capy"
-        stroke="#795444"
-        stroke-width="3"
+        class="delivery-couple"
         stroke-linecap="round"
         stroke-linejoin="round">
 
-        <!-- Little walking feet -->
-        <rect
-          class="delivery-foot"
-          x="75" y="174" width="23" height="29" rx="10"
-          fill="#b98a66"/>
+        <!-- FEMALE CAPYBARA -->
+        <g stroke="#805b43" stroke-width="3">
 
-        <rect
-          class="delivery-foot alternate"
-          x="131" y="174" width="23" height="29" rx="10"
-          fill="#b98a66"/>
+          <!-- Feet, behind dress -->
+          <g class="delivery-foot">
+            <path
+              d="M121 247
+                 L120 265
+                 Q118 275 129 276
+                 L144 276
+                 Q151 275 148 269
+                 L141 263
+                 L141 247Z"
+              fill="#c99b72"/>
 
-        <!-- Round body -->
-        <ellipse cx="111" cy="152" rx="57" ry="43" fill="#cda17c"/>
+            <path
+              d="M127 271 L130 275 M135 271 L138 275"
+              fill="none" stroke-width="1.5"/>
+          </g>
 
-        <!-- Cream tummy -->
-        <ellipse
-          cx="120" cy="160" rx="32" ry="28"
-          fill="#ead0ae" stroke="none"/>
+          <g class="delivery-foot alternate">
+            <path
+              d="M157 247
+                 L157 265
+                 Q156 275 167 276
+                 L181 276
+                 Q188 275 185 269
+                 L177 263
+                 L177 247Z"
+              fill="#c99b72"/>
 
-        <!-- Rounded head -->
-        <rect
-          x="72" y="80" width="100" height="77" rx="32"
-          fill="#d8b18c"/>
+            <path
+              d="M163 271 L166 275 M172 271 L175 275"
+              fill="none" stroke-width="1.5"/>
+          </g>
 
-        <!-- Tiny ears -->
-        <ellipse cx="87" cy="82" rx="13" ry="15" fill="#cda17c"/>
-        <ellipse cx="143" cy="81" rx="12" ry="14" fill="#cda17c"/>
-
-        <ellipse
-          cx="87" cy="83" rx="6" ry="8"
-          fill="#edbec0" stroke="none"/>
-
-        <ellipse
-          cx="143" cy="82" rx="5" ry="7"
-          fill="#edbec0" stroke="none"/>
-
-        <!-- Soft snout -->
-        <ellipse
-          cx="155" cy="130" rx="29" ry="23"
-          fill="#e4bf99"/>
-
-        <!-- Shiny eye -->
-        <circle cx="123" cy="108" r="5" fill="#583a36" stroke="none"/>
-        <circle cx="124.5" cy="106.5" r="1.6" fill="white" stroke="none"/>
-
-        <!-- Nose and happy smile -->
-        <ellipse
-          cx="174" cy="123" rx="4" ry="3"
-          fill="#795444" stroke="none"/>
-
-        <path d="M151 136 Q159 143 167 136" fill="none"/>
-
-        <!-- Pink blush -->
-        <ellipse
-          cx="128" cy="128" rx="10" ry="6"
-          fill="#e99cad" opacity=".75" stroke="none"/>
-
-        <!-- Pink bow -->
-        <g stroke="#c46b8d" stroke-width="2">
+          <!-- Slim torso -->
           <path
-            d="M99 87 Q79 69 77 86 Q79 103 99 91Z"
-            fill="#f3aac5"/>
+            d="M130 162
+               Q113 176 113 199
+               L117 232
+               Q150 251 180 232
+               L183 199
+               Q180 175 164 162Z"
+            fill="url(#ld-capy-fur)"/>
+
+          <!-- Pink dress -->
           <path
-            d="M101 87 Q120 70 122 87 Q119 104 101 91Z"
-            fill="#f3aac5"/>
-          <circle cx="100" cy="89" r="5" fill="#e783a2"/>
+            d="M121 180
+               Q146 192 175 180
+               L170 205
+               Q177 230 188 251
+               Q151 266 108 251
+               Q120 225 124 205Z"
+            fill="url(#ld-capy-dress)"
+            stroke="#c77d99"/>
+
+          <!-- Dress straps -->
+          <path
+            d="M126 178 L130 195 M168 178 L165 195"
+            fill="none" stroke="#e99bb8" stroke-width="7"/>
+
+          <!-- Waist ribbon -->
+          <path
+            d="M124 208 Q146 216 170 208"
+            fill="none" stroke="#d57d9f" stroke-width="4"/>
+
+          <!-- Dress folds -->
+          <path
+            d="M133 223 L126 249
+               M151 223 L152 253
+               M166 223 L176 248"
+            fill="none" stroke="#d68ca8" stroke-width="2"/>
+
+          <!-- Small dress heart -->
+          <path
+            d="M148 240
+               C136 233 140 225 147 230
+               C154 225 160 233 148 240Z"
+            fill="#fff3f7" stroke="none"/>
+
+          <!-- Ears behind the head -->
+          <ellipse
+            cx="120" cy="106" rx="13" ry="16"
+            fill="#cda078"/>
+
+          <ellipse
+            cx="167" cy="104" rx="12" ry="15"
+            fill="#cda078"/>
+
+          <ellipse
+            cx="120" cy="106" rx="6" ry="9"
+            fill="#e8b5b1" stroke="none"/>
+
+          <ellipse
+            cx="167" cy="104" rx="5.5" ry="8"
+            fill="#e8b5b1" stroke="none"/>
+
+          <!-- Unified head and broad capybara muzzle -->
+          <path
+            d="M119 110
+               Q133 99 158 103
+               Q177 106 182 121
+               L199 128
+               Q212 134 212 150
+               Q212 169 192 176
+               Q174 182 150 176
+               L128 169
+               Q108 161 107 140
+               Q106 121 119 110Z"
+            fill="url(#ld-capy-fur)"/>
+
+          <!-- Soft muzzle highlight: no extra outline -->
+          <path
+            d="M176 131
+               Q195 130 203 141
+               Q210 158 194 168
+               Q179 174 164 165
+               Q157 156 163 144
+               Q168 135 176 131Z"
+            fill="#e9c8a2" stroke="none"/>
+
+          <!-- Eye and eyelashes -->
+          <ellipse
+            cx="151" cy="132" rx="4.8" ry="6"
+            fill="#4f372f" stroke="none"/>
+
+          <circle
+            cx="152.5" cy="130" r="1.5"
+            fill="#fffaf3" stroke="none"/>
+
+          <path
+            d="M147 128 L143 124
+               M150 126 L148 121
+               M154 127 L156 122"
+            fill="none" stroke="#4f372f" stroke-width="2"/>
+
+          <!-- Nose -->
+          <ellipse
+            cx="202" cy="145" rx="3.5" ry="2.5"
+            fill="#805b43" stroke="none"/>
+
+          <!-- Gentle smile -->
+          <path
+            d="M179 158 Q188 164 197 157"
+            fill="none" stroke-width="2"/>
+
+          <!-- Cheek -->
+          <ellipse
+            cx="148" cy="152" rx="10" ry="6"
+            fill="#eb9db1" opacity=".75" stroke="none"/>
+
+          <!-- Pink bow -->
+          <g stroke="#bd6f8e" stroke-width="2">
+            <path
+              d="M128 106
+                 Q108 88 103 99
+                 Q99 113 126 113Z"
+              fill="#f6b4cd"/>
+
+            <path
+              d="M132 106
+                 Q151 87 155 99
+                 Q160 113 134 113Z"
+              fill="#f6b4cd"/>
+
+            <path
+              d="M111 102 L123 108
+                 M146 102 L137 108"
+              fill="none" stroke="#e18aa9"/>
+
+            <circle cx="130" cy="109" r="6" fill="#df87aa"/>
+          </g>
+
+          <!-- Small gold earring -->
+          <circle
+            cx="118" cy="158" r="4"
+            fill="none" stroke="#bd934f" stroke-width="2"/>
+        </g>
+
+        <!-- MALE CROCODILE -->
+        <g stroke="#52744c" stroke-width="3">
+
+          <!-- Large tapered tail, behind body -->
+          <path
+            d="M397 205
+               Q445 214 473 183
+               Q481 174 486 160
+               Q498 206 458 242
+               Q433 263 399 247Z"
+            fill="#87b67b"/>
+
+          <!-- Tail ridge -->
+          <path
+            d="M434 208 L440 195 L449 203
+               L458 187 L466 194
+               L477 177 L482 186"
+            fill="#709d64" stroke-width="2"/>
+
+          <!-- Feet -->
+          <g class="delivery-foot alternate">
+            <path
+              d="M311 250
+                 L306 266
+                 Q303 278 316 279
+                 L339 279
+                 Q348 277 343 270
+                 L332 263
+                 L332 250Z"
+              fill="#83af77"/>
+
+            <path
+              d="M313 273 L316 278
+                 M324 273 L327 278"
+              fill="none" stroke-width="1.5"/>
+          </g>
+
+          <g class="delivery-foot">
+            <path
+              d="M380 250
+                 L379 267
+                 Q378 278 391 279
+                 L414 279
+                 Q423 277 418 270
+                 L406 263
+                 L403 250Z"
+              fill="#83af77"/>
+
+            <path
+              d="M387 273 L390 278
+                 M399 273 L402 278"
+              fill="none" stroke-width="1.5"/>
+          </g>
+
+          <!-- Round, chubby body -->
+          <path
+            d="M332 154
+               Q368 142 398 169
+               Q425 193 421 226
+               Q419 265 369 268
+               Q318 272 296 245
+               Q279 220 291 190
+               Q304 164 332 154Z"
+            fill="url(#ld-croc-skin)"/>
+
+          <!-- Large cream belly -->
+          <ellipse
+            cx="352" cy="221" rx="43" ry="39"
+            fill="#e0e9b9" stroke="none"/>
+
+          <!-- Belly lines -->
+          <path
+            d="M326 208 Q351 216 378 207
+               M320 222 Q352 231 385 221
+               M326 237 Q352 245 379 237"
+            fill="none" stroke="#bdcc94" stroke-width="2"/>
+
+          <!-- Rounded back ridges -->
+          <path
+            d="M402 179
+               Q416 174 417 188
+               Q430 189 425 201
+               Q438 207 428 217"
+            fill="#77a269" stroke-width="2"/>
+
+          <!-- Far eye bump -->
+          <circle
+            cx="371" cy="108" r="17"
+            fill="#97c087"/>
+
+          <!-- Unified head with long crocodile snout -->
+          <path
+            d="M338 105
+               Q365 95 382 115
+               Q395 132 390 151
+               Q385 169 362 175
+               L304 175
+               Q276 173 270 155
+               Q265 139 279 133
+               L320 130
+               L322 121
+               Q326 110 338 105Z"
+            fill="url(#ld-croc-skin)"/>
+
+          <!-- Near eye bump -->
+          <path
+            d="M322 130
+               L322 115
+               Q322 96 339 96
+               Q356 96 356 115
+               L356 130"
+            fill="#acd098"/>
+
+          <!-- Far eye -->
+          <ellipse
+            cx="369" cy="112" rx="4" ry="5"
+            fill="#334d32" stroke="none"/>
+
+          <!-- Near eye -->
+          <ellipse
+            cx="338" cy="113" rx="5" ry="6"
+            fill="#334d32" stroke="none"/>
+
+          <circle
+            cx="336.5" cy="111" r="1.5"
+            fill="#fffaf3" stroke="none"/>
+
+          <!-- Friendly eyebrow -->
+          <path
+            d="M330 102 Q338 98 346 103"
+            fill="none" stroke-width="2"/>
+
+          <!-- Pale lower jaw -->
+          <path
+            d="M279 153
+               Q317 165 368 153
+               Q362 170 334 171
+               L301 169
+               Q285 168 279 153Z"
+            fill="#d3e3ad" stroke="none"/>
+
+          <!-- Nostril -->
+          <ellipse
+            cx="281" cy="143" rx="3" ry="2"
+            fill="#52744c" stroke="none"/>
+
+          <!-- Broad happy smile -->
+          <path
+            d="M280 153 Q317 166 369 153"
+            fill="none" stroke-width="2.5"/>
+
+          <!-- Tiny teeth -->
+          <path
+            d="M298 158 L303 165 L308 160Z"
+            fill="#fffdf2" stroke-width="1.2"/>
+
+          <path
+            d="M327 161 L332 168 L337 160Z"
+            fill="#fffdf2" stroke-width="1.2"/>
+
+          <!-- Cheek -->
+          <ellipse
+            cx="365" cy="142" rx="11" ry="6"
+            fill="#e9a4ad" opacity=".72" stroke="none"/>
+
+          <!-- Golden bow tie -->
+          <g stroke="#aa8548" stroke-width="2">
+            <path
+              d="M347 179
+                 L330 171
+                 Q326 179 330 189
+                 L347 183Z"
+              fill="url(#ld-gold)"/>
+
+            <path
+              d="M351 179
+                 L368 171
+                 Q373 180 368 189
+                 L351 183Z"
+              fill="url(#ld-gold)"/>
+
+            <rect
+              x="345" y="176" width="9" height="10" rx="3"
+              fill="#c89d59"/>
+          </g>
+        </g>
+
+        <!-- Arms behind the envelope -->
+        <path
+          d="M176 191 Q187 194 205 216"
+          fill="none"
+          stroke="#805b43"
+          stroke-width="17"/>
+
+        <path
+          d="M176 191 Q187 194 205 216"
+          fill="none"
+          stroke="#d3aa82"
+          stroke-width="12"/>
+
+        <path
+          d="M311 191 Q297 197 286 215"
+          fill="none"
+          stroke="#52744c"
+          stroke-width="19"/>
+
+        <path
+          d="M311 191 Q297 197 286 215"
+          fill="none"
+          stroke="#a2c990"
+          stroke-width="14"/>
+
+        <!-- Shared pink envelope -->
+        <g>
+          <rect
+            x="195" y="195" width="103" height="70" rx="9"
+            fill="url(#ld-envelope)"
+            stroke="#bd7895"
+            stroke-width="2.5"/>
+
+          <path
+            d="M198 260 L235 226
+               M295 260 L259 226"
+            fill="none"
+            stroke="#dfa2bb"
+            stroke-width="2"/>
+
+          <path
+            d="M198 199 L246.5 234 L295 199"
+            fill="#fff0f6"
+            stroke="#d493ae"
+            stroke-width="2"/>
+
+          <circle
+            cx="246.5" cy="234" r="13"
+            fill="url(#ld-gold)"/>
+
+          <path
+            d="M246.5 241
+               C233 233 238 224 246.5 230
+               C255 224 260 233 246.5 241Z"
+            fill="#fffaf3"/>
+        </g>
+
+        <!-- Hands over the envelope edges -->
+        <g stroke="#805b43" stroke-width="2.5">
+          <ellipse
+            cx="200" cy="222" rx="10" ry="12"
+            fill="#d9b18b"/>
+
+          <path
+            d="M198 216 L203 217
+               M197 222 L203 223"
+            fill="none" stroke-width="1.3"/>
+        </g>
+
+        <g stroke="#52744c" stroke-width="2.5">
+          <ellipse
+            cx="293" cy="222" rx="11" ry="12"
+            fill="#a8ce96"/>
+
+          <path
+            d="M289 217 L296 216
+               M289 223 L296 222"
+            fill="none" stroke-width="1.3"/>
         </g>
       </g>
 
-      <!-- CROCODILE -->
-      <g
-        class="delivery-croc"
-        stroke="#52765a"
-        stroke-width="3"
-        stroke-linecap="round"
-        stroke-linejoin="round">
+      <!-- Caption -->
+      <rect
+        x="121" y="294" width="278" height="28" rx="14"
+        fill="#fffaf3"
+        stroke="#e4c99e"
+        stroke-width="1"/>
 
-        <!-- Curled tail -->
-        <path
-          d="M327 154
-             Q374 149 393 126
-             Q394 163 355 182
-             L327 183Z"
-          fill="#8fbb88"/>
-
-        <!-- Back scales -->
-        <path
-          d="M328 144 L337 132 L345 145
-             L356 132 L363 147
-             L374 139 L378 154"
-          fill="#7ba571"/>
-
-        <!-- Feet -->
-        <rect
-          class="delivery-foot alternate"
-          x="270" y="175" width="23" height="28" rx="10"
-          fill="#8bb582"/>
-
-        <rect
-          class="delivery-foot"
-          x="324" y="174" width="23" height="29" rx="10"
-          fill="#8bb582"/>
-
-        <!-- Chubby body -->
-        <ellipse cx="310" cy="155" rx="49" ry="41" fill="#9fc793"/>
-
-        <!-- Pale tummy -->
-        <ellipse
-          cx="299" cy="163" rx="28" ry="26"
-          fill="#dbe7b9" stroke="none"/>
-
-        <!-- Head -->
-        <rect
-          x="274" y="83" width="73" height="69" rx="27"
-          fill="#a8ce9b"/>
-
-        <!-- Eye bumps -->
-        <circle cx="294" cy="86" r="13" fill="#a8ce9b"/>
-        <circle cx="326" cy="85" r="12" fill="#a8ce9b"/>
-
-        <!-- Rounded friendly snout facing the capybara -->
-        <path
-          d="M294 104
-             L252 104
-             Q234 105 234 123
-             Q234 143 255 145
-             L309 145
-             Q329 140 326 123
-             Q321 105 294 104Z"
-          fill="#b4d5a4"/>
-
-        <!-- Eye -->
-        <circle cx="298" cy="91" r="5" fill="#36523d" stroke="none"/>
-        <circle cx="299.5" cy="89.5" r="1.6" fill="white" stroke="none"/>
-
-        <!-- Nose -->
-        <circle cx="246" cy="116" r="2.5" fill="#52765a" stroke="none"/>
-
-        <!-- Smile -->
-        <path d="M244 131 Q267 140 295 130" fill="none"/>
-
-        <!-- Two tiny rounded teeth -->
-        <path
-          d="M256 136 L260 142 L264 137"
-          fill="#fffaf3" stroke-width="1.5"/>
-        <path
-          d="M276 136 L280 142 L284 134"
-          fill="#fffaf3" stroke-width="1.5"/>
-
-        <!-- Blush -->
-        <ellipse
-          cx="303" cy="121" rx="10" ry="6"
-          fill="#efa8b8" opacity=".8" stroke="none"/>
-
-        <!-- Little pink neck ribbon -->
-        <path d="M283 148 Q306 158 326 148" fill="none" stroke="#df87a6" stroke-width="7"/>
-        <path d="M311 152 L318 168 L323 154" fill="#f3aac5" stroke="#df87a6" stroke-width="2"/>
-      </g>
-
-      <!-- Shared envelope -->
-      <g class="delivery-letter">
-        <rect
-          x="164" y="135" width="94" height="63" rx="9"
-          fill="url(#delivery-envelope-pink)"
-          stroke="#c8809c"
-          stroke-width="2.5"/>
-
-        <path
-          d="M166 139 L211 171 L256 139"
-          fill="#ffeaf2"
-          stroke="#d396af"
-          stroke-width="2"
-          stroke-linejoin="round"/>
-
-        <path
-          d="M167 194 L195 172 M255 194 L227 172"
-          fill="none"
-          stroke="#e4aac1"
-          stroke-width="2"/>
-
-        <circle
-          cx="211" cy="171" r="13"
-          fill="url(#delivery-seal-gold)"/>
-
-        <path
-          d="M211 178
-             C197 169 204 161 211 167
-             C218 161 225 169 211 178Z"
-          fill="#fffaf3"/>
-      </g>
-
-      <!-- Paws holding either side of the envelope -->
-      <ellipse
-        cx="165" cy="165" rx="12" ry="9"
-        fill="#d8b18c"
-        stroke="#795444"
-        stroke-width="3"/>
-
-      <ellipse
-        cx="256" cy="165" rx="12" ry="9"
-        fill="#a8ce9b"
-        stroke="#52765a"
-        stroke-width="3"/>
-
-      <!-- Little delivery caption -->
-      <g class="delivery-caption">
-        <rect
-          x="107" y="215" width="210" height="27" rx="13.5"
-          fill="#fffaf3"
-          stroke="#e8cda5"
-          stroke-width="1"/>
-
-        <text
-          x="212" y="233"
-          text-anchor="middle"
-          font-family="Georgia, serif"
-          font-size="13"
-          font-style="italic"
-          fill="#a63b62">
-          Special delivery for ButterCup ♡
-        </text>
-      </g>
+      <text
+        x="260" y="313"
+        text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="14"
+        font-style="italic"
+        fill="#a63b62">
+        A little love delivery for ButterCup ♡
+      </text>
     </svg>
   </div>
 </div>
 
 <script>
   (() => {
-    const deliveryStage = document.getElementById("love-delivery-stage");
-    const deliveryTeam = deliveryStage.querySelector(".love-delivery-team");
-    const envelopeButton = document.getElementById("open-letter");
-
-    const prefersLessMotion =
+    const stage = document.getElementById("love-delivery-stage");
+    const team = stage.querySelector(".love-delivery-team");
+    const envelope = document.getElementById("open-letter");
+    const motionPreference =
       window.matchMedia("(prefers-reduced-motion: reduce)");
 
     let cleanupTimer;
 
     function finishDelivery() {
-      deliveryStage.hidden = true;
-      deliveryStage.classList.remove("is-delivering");
+      stage.hidden = true;
+      stage.classList.remove("is-delivering");
       clearTimeout(cleanupTimer);
     }
 
-    envelopeButton.addEventListener("click", () => {
-      if (prefersLessMotion.matches) return;
+    envelope.addEventListener("click", () => {
+      if (motionPreference.matches) return;
 
-      deliveryStage.hidden = false;
-      deliveryStage.classList.add("is-delivering");
+      stage.hidden = false;
+      stage.classList.add("is-delivering");
 
-      cleanupTimer = setTimeout(finishDelivery, 8500);
+      cleanupTimer = setTimeout(finishDelivery, 9500);
     }, { once: true });
 
-    deliveryTeam.addEventListener("animationend", (event) => {
-      if (event.animationName === "love-delivery-cross") {
+    team.addEventListener("animationend", (event) => {
+      if (
+        event.target === team &&
+        event.animationName === "love-delivery-cross"
+      ) {
         finishDelivery();
       }
     });
 
-    prefersLessMotion.addEventListener("change", (event) => {
+    motionPreference.addEventListener("change", (event) => {
       if (event.matches) finishDelivery();
     });
   })();
