@@ -359,6 +359,108 @@
       }
       .floating-hearts { display: none; }
     }
+
+    /* Added background music controls */
+    .music-panel {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 20;
+      width: min(290px, calc(100vw - 36px));
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      background: rgba(255, 250, 243, .96);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .music-heading {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .music-symbol {
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      color: white;
+      background: linear-gradient(135deg, #dcb779, #a87936);
+      font-size: 1.2rem;
+    }
+
+    .music-title {
+      margin: 0;
+      color: var(--pink-dark);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.05rem;
+    }
+
+    .music-status {
+      margin: 2px 0 0;
+      color: var(--muted);
+      font-size: .75rem;
+      line-height: 1.4;
+    }
+
+    .music-buttons {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .music-control {
+      flex: 1;
+      padding: 8px 10px;
+      border: 1px solid #e2b3c3;
+      border-radius: 999px;
+      color: var(--pink-dark);
+      background: var(--blush);
+      font-size: .8rem;
+      transition: background .2s ease;
+    }
+
+    .music-control:hover {
+      background: #f9dce7;
+    }
+
+    .music-volume-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .music-volume-row label {
+      color: var(--muted);
+      font-size: .75rem;
+    }
+
+    .music-volume-row input {
+      flex: 1;
+      min-width: 0;
+      accent-color: var(--pink-dark);
+      cursor: pointer;
+    }
+
+    .music-volume-row input:focus-visible {
+      outline: 3px solid var(--gold);
+      outline-offset: 4px;
+    }
+
+    @media (max-width: 650px) {
+      .music-panel {
+        right: 12px;
+        bottom: 12px;
+        width: 240px;
+        padding: 12px;
+        border-radius: 18px;
+      }
+    }
   </style>
 </head>
 
@@ -571,6 +673,60 @@
     <footer>Made with a full heart, for one very special girl.</footer>
   </main>
 
+  <!-- Added background song: replace your-song.mp3 with your filename -->
+  <audio id="background-music" loop preload="none">
+    <source src="your-song.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Added music controls -->
+  <section
+    class="music-panel"
+    id="music-panel"
+    aria-label="Background music controls"
+    hidden>
+
+    <div class="music-heading">
+      <span class="music-symbol" aria-hidden="true">♫</span>
+
+      <div>
+        <p class="music-title">A little melody for us</p>
+        <p class="music-status" id="music-status" role="status">
+          Our soundtrack ♡
+        </p>
+      </div>
+    </div>
+
+    <div class="music-buttons">
+      <button
+        type="button"
+        class="music-control"
+        id="music-toggle"
+        aria-label="Play background music">
+        ▶ Play
+      </button>
+
+      <button
+        type="button"
+        class="music-control"
+        id="music-mute"
+        aria-label="Mute background music"
+        aria-pressed="false">
+        ♫ Mute
+      </button>
+    </div>
+
+    <div class="music-volume-row">
+      <label for="music-volume">Volume</label>
+      <input
+        id="music-volume"
+        type="range"
+        min="0"
+        max="100"
+        value="35">
+    </div>
+  </section>
+
+  <!-- Original website interactions -->
   <script>
     const reduceMotion =
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -651,6 +807,116 @@
         background.appendChild(heart);
       }
     }
+  </script>
+
+  <!-- Added background music interactions -->
+  <script>
+    (() => {
+      const audio = document.getElementById("background-music");
+      const panel = document.getElementById("music-panel");
+      const toggle = document.getElementById("music-toggle");
+      const mute = document.getElementById("music-mute");
+      const volume = document.getElementById("music-volume");
+      const status = document.getElementById("music-status");
+      const envelope = document.getElementById("open-letter");
+
+      audio.volume = Number(volume.value) / 100;
+
+      function updateControls() {
+        const isPlaying = !audio.paused && !audio.ended;
+        const isSilent = audio.muted || audio.volume === 0;
+
+        toggle.textContent = isPlaying ? "❚❚ Pause" : "▶ Play";
+        toggle.setAttribute(
+          "aria-label",
+          isPlaying ? "Pause background music" : "Play background music"
+        );
+
+        mute.textContent = isSilent ? "♫ Unmute" : "♫ Mute";
+        mute.setAttribute("aria-pressed", String(isSilent));
+        mute.setAttribute(
+          "aria-label",
+          isSilent ? "Unmute background music" : "Mute background music"
+        );
+      }
+
+      async function playMusic() {
+        status.textContent = "Starting our soundtrack…";
+
+        try {
+          await audio.play();
+          status.textContent = "Playing our soundtrack ♡";
+        } catch {
+          status.textContent =
+            "Couldn’t start the song. Tap Play to retry.";
+        }
+
+        updateControls();
+      }
+
+      // Start the song on the first envelope click only.
+      envelope.addEventListener("click", () => {
+        panel.hidden = false;
+        playMusic();
+      }, { once: true });
+
+      toggle.addEventListener("click", () => {
+        if (audio.paused) {
+          playMusic();
+        } else {
+          audio.pause();
+        }
+      });
+
+      mute.addEventListener("click", () => {
+        if (audio.muted || audio.volume === 0) {
+          audio.muted = false;
+
+          if (audio.volume === 0) {
+            audio.volume = .35;
+            volume.value = "35";
+          }
+        } else {
+          audio.muted = true;
+        }
+
+        updateControls();
+      });
+
+      volume.addEventListener("input", () => {
+        audio.volume = Number(volume.value) / 100;
+
+        if (audio.volume > 0) {
+          audio.muted = false;
+        }
+
+        updateControls();
+      });
+
+      audio.addEventListener("playing", () => {
+        status.textContent = "Playing our soundtrack ♡";
+        updateControls();
+      });
+
+      audio.addEventListener("pause", () => {
+        status.textContent = "Paused — whenever you’re ready ♡";
+        updateControls();
+      });
+
+      audio.addEventListener("waiting", () => {
+        status.textContent = "Loading our soundtrack…";
+      });
+
+      audio.addEventListener("volumechange", updateControls);
+
+      audio.addEventListener("error", () => {
+        status.textContent =
+          "Song unavailable. Check the audio filename.";
+        updateControls();
+      });
+
+      updateControls();
+    })();
   </script>
 </body>
 </html>
