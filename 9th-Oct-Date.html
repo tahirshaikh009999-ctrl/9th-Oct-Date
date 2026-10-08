@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff0f5">
+  <title>A little date, just for you 💌</title>
+
+  <style>
+    :root {
+      --pink: #e783a2;
+      --pink-dark: #a63b62;
+      --blush: #fff0f5;
+      --cream: #fffaf3;
+      --gold: #ae8240;
+      --ink: #583a46;
+      --muted: #886b76;
+      --border: rgba(174, 130, 64, .25);
+      --shadow: 0 18px 65px rgba(133, 58, 85, .11);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Segoe UI", Arial, sans-serif;
+      line-height: 1.7;
+      background:
+        radial-gradient(ellipse at 12% 12%, #ffdce9 0, transparent 40%),
+        radial-gradient(ellipse at 90% 50%, #fff0cd 0, transparent 35%),
+        var(--cream);
+      overflow-x: hidden;
+    }
+
+    button, input { font: inherit; }
+
+    button { cursor: pointer; }
+
+    button:focus-visible,
+    summary:focus-visible {
+      outline: 3px solid var(--gold);
+      outline-offset: 5px;
+    }
+
+    [hidden] { display: none !important; }
+
+    .floating-hearts {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .floating-hearts span {
+      position: absolute;
+      bottom: -60px;
+      color: #dc8fa7;
+      opacity: 0;
+      animation: float-up var(--duration) linear infinite;
+      animation-delay: var(--delay);
+      left: var(--left);
+      font-size: var(--size);
+    }
+
+    @keyframes float-up {
+      0% { transform: translateY(0) rotate(0); opacity: 0; }
+      15% { opacity: .3; }
+      85% { opacity: .3; }
+      100% {
+        transform: translateY(-115vh) rotate(25deg);
+        opacity: 0;
+      }
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+      width: min(920px, calc(100% - 36px));
+      margin: auto;
+      padding: 64px 0 28px;
+    }
+
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: .22em;
+      font-size: .73rem;
+      font-weight: 700;
+      color: var(--gold);
+    }
+
+    h1, h2, h3 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: normal;
+      line-height: 1.18;
+    }
+
+    h1 {
+      font-size: clamp(2.8rem, 8vw, 5.2rem);
+      margin: 16px 0;
+    }
+
+    h2 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin: 10px 0 18px;
+    }
+
+    h3 { font-size: 1.55rem; margin: 8px 0; }
+
+    p { margin: 0 0 18px; }
+
+    .hero {
+      text-align: center;
+      min-height: 75vh;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      padding-bottom: 55px;
+    }
+
+    .hero p {
+      max-width: 470px;
+      color: var(--muted);
+    }
+
+    .script {
+      color: var(--pink-dark);
+      font-style: italic;
+    }
+
+    .envelope {
+      position: relative;
+      width: 230px;
+      height: 145px;
+      margin: 30px 0 24px;
+      background: #f6d5df;
+      border: 1px solid #e9b5c5;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      display: grid;
+      place-items: center;
+      transition: transform .3s ease;
+    }
+
+    .envelope:hover { transform: translateY(-5px) rotate(-2deg); }
+
+    .envelope::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: #ffe9ef;
+      clip-path: polygon(0 0, 100% 0, 50% 60%);
+      border-radius: 8px;
+    }
+
+    .seal {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #dcb779, #a87936);
+      color: white;
+      font-size: 1.6rem;
+      box-shadow: 0 4px 15px #ae824044;
+    }
+
+    .button {
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 26px;
+      background: var(--pink-dark);
+      color: white;
+      box-shadow: 0 8px 24px #a63b6225;
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px #a63b6235;
+    }
+
+    .button.secondary {
+      color: var(--pink-dark);
+      border: 1px solid #e2b3c3;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .panel {
+      background: rgba(255, 255, 255, .78);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: clamp(25px, 5vw, 50px);
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+      backdrop-filter: blur(8px);
+    }
+
+    .invitation { text-align: center; }
+
+    .invitation .letter {
+      max-width: 590px;
+      margin: auto;
+    }
+
+    .date-chip {
+      display: inline-block;
+      background: var(--blush);
+      color: var(--pink-dark);
+      border: 1px solid #f1cfdb;
+      border-radius: 16px;
+      padding: 12px 22px;
+      margin: 12px 0 24px;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .small-note {
+      font-size: .88rem;
+      color: var(--muted);
+      margin-top: 17px;
+    }
+
+    .section-heading { text-align: center; margin: 48px 0 24px; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .grid .panel { margin: 0; }
+
+    .icon { font-size: 2rem; }
+
+    .detail-list {
+      padding-left: 20px;
+      margin-bottom: 0;
+    }
+
+    .detail-list li { margin: 10px 0; }
+
+    .palette { display: flex; gap: 10px; margin: 20px 0 12px; }
+
+    .swatch {
+      height: 31px;
+      width: 31px;
+      border-radius: 50%;
+      border: 3px solid white;
+      box-shadow: 0 0 0 1px var(--border);
+    }
+
+    .timeline {
+      position: relative;
+      margin-top: 30px;
+      padding-left: 30px;
+      border-left: 1px solid #d8b67e;
+    }
+
+    .stop { position: relative; padding: 0 0 30px 8px; }
+
+    .stop:last-child { padding-bottom: 0; }
+
+    .stop::before {
+      content: "";
+      position: absolute;
+      left: -37px;
+      top: 7px;
+      width: 12px;
+      height: 12px;
+      background: var(--gold);
+      border-radius: 50%;
+      box-shadow: 0 0 0 6px var(--cream);
+    }
+
+    .time {
+      color: var(--pink-dark);
+      font-size: .82rem;
+      font-weight: 700;
+      letter-spacing: .07em;
+    }
+
+    .stop p { color: var(--muted); margin-bottom: 0; }
+
+    details {
+      padding: 18px 20px;
+      background: var(--blush);
+      border-radius: 16px;
+      margin-top: 20px;
+    }
+
+    summary { cursor: pointer; color: var(--pink-dark); }
+
+    details p { margin: 15px 0 0; }
+
+    .closing {
+      text-align: center;
+      padding: 40px 15px 25px;
+    }
+
+    .closing p { color: var(--muted); }
+
+    .signature {
+      font-family: Georgia, serif;
+      font-style: italic;
+      color: var(--pink-dark);
+      font-size: 1.6rem;
+    }
+
+    .reveal { animation: reveal .7s ease both; }
+
+    @keyframes reveal {
+      from { opacity: 0; transform: translateY(22px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .confetti {
+      position: fixed;
+      top: -30px;
+      pointer-events: none;
+      z-index: 10;
+      animation: fall 3s ease-in forwards;
+    }
+
+    @keyframes fall {
+      to { transform: translateY(110vh) rotate(350deg); opacity: 0; }
+    }
+
+    footer {
+      text-align: center;
+      font-size: .8rem;
+      color: var(--muted);
+      margin-top: 30px;
+    }
+
+    @media (max-width: 650px) {
+      main { padding-top: 35px; }
+      .grid { grid-template-columns: 1fr; }
+      .hero { min-height: 70vh; }
+      .panel { border-radius: 22px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+      .floating-hearts { display: none; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="floating-hearts" aria-hidden="true"></div>
+
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <span class="eyebrow">A special delivery for my favourite girl</span>
+
+      <h1 id="hero-title">
+        Hey, <span class="script">[Her nickname].</span>
+      </h1>
+
+      <p>
+        I’ve been planning a little something.<br>
+        It involves you, me, and a very pretty evening.
+      </p>
+
+      <button
+        class="envelope"
+        id="open-letter"
+        aria-label="Open your invitation"
+        aria-controls="invitation"
+        aria-expanded="false">
+        <span class="seal" aria-hidden="true">♥</span>
+      </button>
+
+      <span class="small-note">Tap the envelope. It’s yours. 💌</span>
+    </section>
+
+    <section
+      class="panel invitation"
+      id="invitation"
+      aria-labelledby="invitation-title"
+      hidden>
+
+      <span class="eyebrow">An invitation for two</span>
+      <h2 id="invitation-title">May I take you on a date?</h2>
+
+      <div class="letter">
+        <p>
+          My love,<br>
+          I want an evening where we slow down, dress up a little,
+          hold hands, and make another memory that’s just ours.
+        </p>
+
+        <p>
+          So I’ve taken care of the plan.
+          All you have to do is bring your lovely self.
+          I’ll bring the butterflies.
+        </p>
+      </div>
+
+      <div class="date-chip">
+        🗓️ [Day, date] &nbsp; · &nbsp; [Time]
+      </div>
+
+      <div class="actions">
+        <button class="button" id="accept">Yes, it’s a date! 💕</button>
+        <button class="button secondary" id="reschedule">
+          Can we pick another day?
+        </button>
+      </div>
+
+      <p class="small-note" id="reply-message" role="status"></p>
+    </section>
+
+    <div id="date-plan" hidden>
+      <div class="section-heading">
+        <span class="eyebrow">You said yes. Now for the lovely details.</span>
+        <h2>Your evening, <span class="script">all planned.</span></h2>
+      </div>
+
+      <div class="grid">
+        <section class="panel" aria-labelledby="outfit-title">
+          <div class="icon" aria-hidden="true">🎀</div>
+          <h3 id="outfit-title">The outfit mood</h3>
+
+          <p>
+            Romantic, a little dressy, and completely you.
+            Think pink with a touch of gold.
+          </p>
+
+          <div class="palette" aria-hidden="true">
+            <span class="swatch" style="background:#f5bdd0"></span>
+            <span class="swatch" style="background:#e889ab"></span>
+            <span class="swatch" style="background:#d2ae6d"></span>
+            <span class="swatch" style="background:#fff5e7"></span>
+          </div>
+
+          <ul class="detail-list">
+            <li>[A pink dress / your favourite outfit]</li>
+            <li>[Gold earrings or a little golden accessory]</li>
+            <li>Something you feel beautiful and comfortable in</li>
+            <li>[Comfortable shoes for a short walk]</li>
+          </ul>
+
+          <p class="small-note">
+            This is a mood, not a rule.
+            My favourite part of the outfit is you.
+          </p>
+        </section>
+
+        <section class="panel" aria-labelledby="logistics-title">
+          <div class="icon" aria-hidden="true">📍</div>
+          <h3 id="logistics-title">The little logistics</h3>
+
+          <ul class="detail-list">
+            <li>Be ready by: [Time]</li>
+            <li>Pick-up / meeting point: [Location]</li>
+            <li>We’re heading to: [Venue, neighbourhood]</li>
+            <li>Keep free until: [Approximate end time]</li>
+            <li>Bring: [A light layer / anything else she needs]</li>
+          </ul>
+
+          <p class="small-note">
+            Food, the plan, and the little details?
+            Leave those to me. ♡
+          </p>
+        </section>
+      </div>
+
+      <section class="panel" style="margin-top:24px"
+               aria-labelledby="timeline-title">
+        <span class="eyebrow">Our little itinerary</span>
+        <h2 id="timeline-title">A few hours of <span class="script">us.</span></h2>
+
+        <div class="timeline">
+          <article class="stop">
+            <span class="time">[5:30 PM]</span>
+            <h3>Your date arrives</h3>
+            <p>
+              [I’ll pick you up at your place.]
+              Expect a big smile and a very enthusiastic compliment.
+            </p>
+          </article>
+
+          <article class="stop">
+            <span class="time">[6:00 PM]</span>
+            <h3>A golden-hour moment</h3>
+            <p>
+              [A walk at your chosen location.]
+              A little fresh air, a few pictures, and your hand in mine.
+            </p>
+          </article>
+
+          <article class="stop">
+            <span class="time">[7:00 PM]</span>
+            <h3>Dinner, with my favourite view</h3>
+            <p>
+              [Dinner at your restaurant.]
+              Good food, unhurried conversation,
+              and me looking at you across the table.
+            </p>
+          </article>
+
+          <article class="stop">
+            <span class="time">[8:15 PM]</span>
+            <h3>Something sweet</h3>
+            <p>
+              [Dessert / her favourite treat.]
+              Because an evening this lovely deserves a sweet little ending.
+            </p>
+          </article>
+
+          <article class="stop">
+            <span class="time">BEFORE WE HEAD HOME</span>
+            <h3>One last little surprise ✨</h3>
+            <p>
+              Not every detail belongs on an itinerary.
+              Leave this little moment to me.
+            </p>
+          </article>
+        </div>
+
+        <details>
+          <summary>A tiny hint, if you’re curious 💭</summary>
+          <p>
+            It isn’t something you need to pack for.
+            Just bring yourself—and let me make you smile.
+          </p>
+        </details>
+      </section>
+
+      <section class="panel invitation">
+        <span class="eyebrow">One small request</span>
+        <h2>Send me a little <span class="script">“yes.”</span></h2>
+        <p>
+          The button makes this page celebrate, but it doesn’t message me.
+          Send me “It’s a date 💕” so I know you’ve seen your invitation.
+        </p>
+        <button class="button secondary" id="copy-reply">
+          Copy my reply 💌
+        </button>
+        <p class="small-note" id="copy-status" role="status"></p>
+      </section>
+
+      <section class="closing">
+        <span class="eyebrow">Until then</span>
+        <h2>I can’t wait to see <span class="script">you.</span></h2>
+        <p>
+          No special occasion needed.<br>
+          You are already my favourite reason.
+        </p>
+        <div class="signature">With love, [Your name] ♡</div>
+      </section>
+    </div>
+
+    <footer>Made with a full heart, for one very special girl.</footer>
+  </main>
+
+  <script>
+    const reduceMotion =
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const openButton = document.getElementById("open-letter");
+    const invitation = document.getElementById("invitation");
+    const plan = document.getElementById("date-plan");
+    const replyMessage = document.getElementById("reply-message");
+
+    function reveal(element) {
+      element.hidden = false;
+      element.classList.add("reveal");
+    }
+
+    function scrollToElement(element) {
+      element.scrollIntoView({
+        behavior: reduceMotion ? "auto" : "smooth",
+        block: "start"
+      });
+    }
+
+    openButton.addEventListener("click", () => {
+      reveal(invitation);
+      openButton.setAttribute("aria-expanded", "true");
+      scrollToElement(invitation);
+    });
+
+    document.getElementById("accept").addEventListener("click", () => {
+      replyMessage.textContent =
+        "Officially the best answer. Your date details are below. 💕";
+      reveal(plan);
+      celebrate();
+      setTimeout(() => scrollToElement(plan), reduceMotion ? 0 : 300);
+    });
+
+    document.getElementById("reschedule").addEventListener("click", () => {
+      replyMessage.textContent =
+        "Of course, my love. Message me a day that works for you. " +
+        "The invitation—and the butterflies—aren’t going anywhere. ♡";
+    });
+
+    document.getElementById("copy-reply").addEventListener("click", async () => {
+      const status = document.getElementById("copy-status");
+      try {
+        await navigator.clipboard.writeText("It’s a date 💕");
+        status.textContent = "Copied! Paste it into our chat. 💌";
+      } catch {
+        status.textContent = "Send me this in our chat: It’s a date 💕";
+      }
+    });
+
+    function celebrate() {
+      if (reduceMotion) return;
+
+      for (let i = 0; i < 45; i++) {
+        const piece = document.createElement("span");
+        piece.className = "confetti";
+        piece.textContent = ["♥", "✦", "♡"][Math.floor(Math.random() * 3)];
+        piece.style.left = Math.random() * 100 + "vw";
+        piece.style.color = ["#e783a2", "#ae8240", "#a63b62"][i % 3];
+        piece.style.fontSize = 12 + Math.random() * 17 + "px";
+        piece.style.animationDelay = Math.random() * .7 + "s";
+        document.body.appendChild(piece);
+        setTimeout(() => piece.remove(), 4200);
+      }
+    }
+
+    if (!reduceMotion) {
+      const background = document.querySelector(".floating-hearts");
+
+      for (let i = 0; i < 12; i++) {
+        const heart = document.createElement("span");
+        heart.textContent = i % 2 ? "♡" : "♥";
+        heart.style.setProperty("--left", Math.random() * 100 + "%");
+        heart.style.setProperty("--size", 14 + Math.random() * 18 + "px");
+        heart.style.setProperty("--duration", 14 + Math.random() * 12 + "s");
+        heart.style.setProperty("--delay", -Math.random() * 25 + "s");
+        background.appendChild(heart);
+      }
+    }
+  </script>
+</body>
+</html>
